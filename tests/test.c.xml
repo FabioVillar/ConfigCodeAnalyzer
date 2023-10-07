@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<unit xmlns="http://www.srcML.org/srcML/src" xmlns:cpp="http://www.srcML.org/srcML/cpp" revision="1.0.0" language="C" filename="test.c"><cpp:include>#<cpp:directive>include</cpp:directive> <cpp:file>&lt;stdio.h&gt;</cpp:file></cpp:include>
+<cpp:include>#<cpp:directive>include</cpp:directive> <cpp:file>&lt;stdlib.h&gt;</cpp:file></cpp:include>
+<cpp:include>#<cpp:directive>include</cpp:directive> <cpp:file>&lt;time.h&gt;</cpp:file></cpp:include>
+
+<cpp:define>#<cpp:directive>define</cpp:directive> <cpp:macro><name>ENABLE_FEATURE</name></cpp:macro> <cpp:value>1</cpp:value></cpp:define> 
+
+<function><type><name>int</name></type> <name>main</name><parameter_list>()</parameter_list> <block>{<block_content>
+    <expr_stmt><expr><call><name>srand</name><argument_list>(<argument><expr><call><name>time</name><argument_list>(<argument><expr><name>NULL</name></expr></argument>)</argument_list></call></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+
+    <cpp:if>#<cpp:directive>if</cpp:directive> <expr><name>ENABLE_FEATURE</name></expr></cpp:if>
+        <decl_stmt><decl><type><name>int</name></type> <name>randomNumber</name> <init>= <expr><call><name>rand</name><argument_list>()</argument_list></call> <operator>%</operator> <literal type="number">100</literal></expr></init></decl>;</decl_stmt>
+        <expr_stmt><expr><call><name>printf</name><argument_list>(<argument><expr><literal type="string">"Recurso habilitado. NÃºmero aleatÃ³rio: %d\n"</literal></expr></argument>, <argument><expr><name>randomNumber</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+    <cpp:else>#<cpp:directive>else</cpp:directive></cpp:else>
+        <expr_stmt><expr><call><name>printf</name><argument_list>(<argument><expr><literal type="string">"Recurso desabilitado.\n"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+    <cpp:endif>#<cpp:directive>endif</cpp:directive></cpp:endif>
+
+    <if_stmt><if>if <condition>(<expr><literal type="number">1</literal></expr>)</condition><block>{<block_content>
+      <expr_stmt><expr><call><name>printf</name><argument_list>(<argument><expr><literal type="string">"Hello world"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+    </block_content>}</block></if></if_stmt>
+    <cpp:if>#<cpp:directive>if</cpp:directive> <expr><operator>!</operator><name>ENABLE_FEATURE</name></expr></cpp:if>
+        <decl_stmt><decl><type><name>int</name></type> <name>x</name> <init>= <expr><literal type="number">0</literal></expr></init></decl>;</decl_stmt>
+    <cpp:endif>#<cpp:directive>endif</cpp:directive></cpp:endif>
+    <return>return <expr><literal type="number">0</literal></expr>;</return>
+</block_content>}</block></function></unit>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<unit xmlns="http://www.srcML.org/srcML/src" xmlns:cpp="http://www.srcML.org/srcML/cpp" revision="1.0.0" language="C" filename="test3.c"><cpp:include>#<cpp:directive>include</cpp:directive> <cpp:file>&lt;stdio.h&gt;</cpp:file></cpp:include>
+
+<cpp:define>#<cpp:directive>define</cpp:directive> <cpp:macro><name>DEBUG</name></cpp:macro> <cpp:value>1</cpp:value></cpp:define>
+
+<cpp:ifdef>#<cpp:directive>ifdef</cpp:directive> <name>DEBUG</name></cpp:ifdef>
+    <cpp:define>#<cpp:directive>define</cpp:directive> <cpp:macro><name>LOG</name><parameter_list>(<parameter><type><name>message</name></type></parameter>)</parameter_list></cpp:macro> <cpp:value>printf("Debug: %s\n", message)</cpp:value></cpp:define>
+<cpp:else>#<cpp:directive>else</cpp:directive></cpp:else>
+    <cpp:define>#<cpp:directive>define</cpp:directive> <cpp:macro><name>LOG</name><parameter_list>(<parameter><type><name>message</name></type></parameter>)</parameter_list></cpp:macro></cpp:define>
+<cpp:endif>#<cpp:directive>endif</cpp:directive></cpp:endif>
+
+<cpp:define>#<cpp:directive>define</cpp:directive> <cpp:macro><name>PLATFORM_LINUX</name></cpp:macro> <cpp:value>1</cpp:value></cpp:define>
+<cpp:define>#<cpp:directive>define</cpp:directive> <cpp:macro><name>PLATFORM_WINDOWS</name></cpp:macro> <cpp:value>2</cpp:value></cpp:define>
+<cpp:define>#<cpp:directive>define</cpp:directive> <cpp:macro><name>PLATFORM_MAC</name></cpp:macro> <cpp:value>3</cpp:value></cpp:define>
+
+<cpp:ifndef>#<cpp:directive>ifndef</cpp:directive> <name>PLATFORM</name></cpp:ifndef>
+    <cpp:error>#<cpp:directive>error</cpp:directive> <cpp:literal>"Please define PLATFORM macro to specify the target platform."</cpp:literal></cpp:error>
+<cpp:endif>#<cpp:directive>endif</cpp:directive></cpp:endif>
+
+<function><type><name>int</name></type> <name>main</name><parameter_list>()</parameter_list> <block>{<block_content>
+    <cpp:if>#<cpp:directive>if</cpp:directive> <expr><name>PLATFORM</name> <operator>==</operator> <name>PLATFORM_LINUX</name></expr></cpp:if>
+        <expr_stmt><expr><call><name>LOG</name><argument_list>(<argument><expr><literal type="string">"Running on Linux."</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+    <cpp:elif>#<cpp:directive>elif</cpp:directive> <expr><name>PLATFORM</name> <operator>==</operator> <name>PLATFORM_WINDOWS</name></expr></cpp:elif>
+        <expr_stmt><expr><call><name>LOG</name><argument_list>(<argument><expr><literal type="string">"Running on Windows."</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+    <cpp:elif>#<cpp:directive>elif</cpp:directive> <expr><name>PLATFORM</name> <operator>==</operator> <name>PLATFORM_MAC</name></expr></cpp:elif>
+        <expr_stmt><expr><call><name>LOG</name><argument_list>(<argument><expr><literal type="string">"Running on macOS."</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+    <cpp:else>#<cpp:directive>else</cpp:directive></cpp:else>
+        <expr_stmt><expr><call><name>LOG</name><argument_list>(<argument><expr><literal type="string">"Unknown platform."</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+    <cpp:endif>#<cpp:directive>endif</cpp:directive></cpp:endif>
+
+    <return>return <expr><literal type="number">0</literal></expr>;</return>
+</block_content>}</block></function></unit>
