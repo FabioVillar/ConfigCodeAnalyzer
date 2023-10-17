@@ -15,7 +15,7 @@ def getIfCodeBlock(i):
     codeBlock = []
     if len(bs_data.find_all()) >= i + 2:
         while bs_data.find_all()[i+2].name != 'directive':
-            codeBlock.append(bs_data.find_all()[i].text)
+            codeBlock.append(bs_data.find_all()[i+2].text)
             i += 1
     return codeBlock
 
