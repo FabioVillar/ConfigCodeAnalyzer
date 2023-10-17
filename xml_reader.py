@@ -2,23 +2,39 @@ import json
 
 from bs4 import BeautifulSoup
 
+# Get the conditional variable of a #else
 def getElseConditional(i):
     conditional = ""
-    while bs_data.find_all()[i].next != 'if':
+    while bs_data.find_all()[i].next != 'if' and bs_data.find_all()[i].next != 'ifndef' and bs_data.find_all()[i].next != 'ifdef':
         if bs_data.find_all()[i].next == 'elif':
             conditional += "not " + bs_data.find_all()[i+1].text + " and "
         i -= 1
     conditional += "not " + bs_data.find_all()[i+1].text
     return conditional
 
+# Get the code block after a #if, #ifdef, #ifndef, #elif
 def getIfCodeBlock(i):
+    global directives
     codeBlock = []
-    if len(bs_data.find_all()) >= i + 2:
-        while bs_data.find_all()[i+2].name != 'directive':
-            codeBlock.append(bs_data.find_all()[i+2].text)
+    if len(bs_data.find_all()) > i + 1:
+        while (bs_data.find_all()[i+1].name != 'directive' or
+               (bs_data.find_all()[i+1].name == 'directive' and
+                (bs_data.find_all()[i+1].text != 'else' and
+                 bs_data.find_all()[i+1].text != 'elif' and 
+                 bs_data.find_all()[i+1].text != 'endif'))):
+            if (bs_data.find_all()[i+1].name == 'decl_stmt' or
+                bs_data.find_all()[i+1].name == 'expr_stmt' or
+                bs_data.find_all()[i+1].name in directives):
+                if bs_data.find_all()[i+1].name not in directives:
+                    codeBlock.append(bs_data.find_all()[i+1].text)
+                elif bs_data.find_all()[i+1].name in directives and bs_data.find_all()[i+1].text != ('#' + bs_data.find_all()[i+1].name):
+                    codeBlock.append(bs_data.find_all()[i+1].text)
             i += 1
+            if i + 1 >= len(bs_data.find_all()):
+                break
     return codeBlock
 
+# Find elements of bs_data that are directives and are conditionals
 def findConditionals():
     global bs_data, allConditionalsDic
     for i in range(0, len(bs_data.find_all())):
@@ -45,9 +61,9 @@ def findConditionals():
                 allConditionalsDic[conditional] = codeBlock 
 
 
-
+# Start the project code
 def main():
-    global allDirectivesArray, bs_data, c_file_name
+    global allDirectivesArray, bs_data, c_file_name, directives
     with open('tests/'+c_file_name, 'r') as f:
         data = f.read() 
     bs_data = BeautifulSoup(data, 'xml') 
@@ -76,9 +92,11 @@ def main():
         json.dump(allConditionalsDic, json_file)
 
 
+# Initialize important variables and call main()
 allDirectivesArray = []
 allConditionalsDic = {}
 bs_data = None
 directiveIndex = None
+directives = []
 c_file_name = 'test3.c.xml'
 main()
