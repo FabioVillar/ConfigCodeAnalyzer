@@ -1,1 +1,0 @@
-{"ENABLE_FEATURE": ["int randomNumber = rand() % 100;", "printf(\"Recurso habilitado. N\u00c3\u0192\u00c2\u00bamero aleat\u00c3\u0192\u00c2\u00b3rio: %d\\n\", randomNumber);"], "not ENABLE_FEATURE": ["printf(\"Recurso desabilitado.\\n\");"], "!ENABLE_FEATURE": ["int x = 0;"]}

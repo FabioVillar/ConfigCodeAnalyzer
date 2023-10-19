@@ -1,1 +1,0 @@
-srcml test.c -o test.c.xml     

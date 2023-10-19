@@ -1,1 +1,0 @@
-{"VERSION == 1": ["printf(\"This is version 1 of the program.\\n\");"], "VERSION == 2": ["printf(\"This is version 2 of the program.\\n\");"], "not VERSION == 2 and not VERSION == 1": ["printf(\"This is an unknown version of the program.\\n\");"]}
