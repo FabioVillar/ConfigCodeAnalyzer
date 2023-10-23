@@ -1,4 +1,5 @@
 import json
+import os
 
 from bs4 import BeautifulSoup
 
@@ -65,7 +66,7 @@ def findConditionals():
 def main(file_name):
     global allDirectivesArray, bs_data, c_file_name, directives
     c_file_name = file_name
-    with open('tests/'+c_file_name, 'r') as f:
+    with open('uploadedFiles/'+c_file_name, 'r') as f:
         data = f.read() 
     bs_data = BeautifulSoup(data, 'xml') 
     directives = [
@@ -88,8 +89,9 @@ def main(file_name):
         if data.name == 'directive':
             allDirectivesArray.append(data)
     findConditionals()
-    json_name = 'conditionals_' + c_file_name[:-6] + '.json'
-    with open(json_name, 'w', newline='') as json_file:
+    folder_path = "jsonFiles/"
+    json_name = c_file_name[:-6] + '.json'
+    with open(folder_path + json_name, 'w', newline='') as json_file:
         json.dump(allConditionalsDic, json_file)
     return json_name
 
