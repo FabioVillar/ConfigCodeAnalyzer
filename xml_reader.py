@@ -8,7 +8,7 @@ def getElseConditional(i):
     conditional = ""
     while bs_data.find_all()[i].next != 'if' and bs_data.find_all()[i].next != 'ifndef' and bs_data.find_all()[i].next != 'ifdef':
         if bs_data.find_all()[i].next == 'elif':
-            conditional += "not " + bs_data.find_all()[i+1].text + " and "
+            conditional += "not (" + bs_data.find_all()[i+1].text + ") and "
         i -= 1
     conditional += "not " + bs_data.find_all()[i+1].text
     return conditional
@@ -17,19 +17,25 @@ def getElseConditional(i):
 def getIfCodeBlock(i):
     global directives
     codeBlock = []
-    if len(bs_data.find_all()) > i + 1:
-        while (bs_data.find_all()[i+1].name != 'directive' or
-               (bs_data.find_all()[i+1].name == 'directive' and
-                (bs_data.find_all()[i+1].text != 'else' and
-                 bs_data.find_all()[i+1].text != 'elif' and 
-                 bs_data.find_all()[i+1].text != 'endif'))):
-            if (bs_data.find_all()[i+1].name == 'decl_stmt' or
-                bs_data.find_all()[i+1].name == 'expr_stmt' or
-                bs_data.find_all()[i+1].name in directives):
-                if bs_data.find_all()[i+1].name not in directives:
-                    codeBlock.append(bs_data.find_all()[i+1].text)
-                elif bs_data.find_all()[i+1].name in directives and bs_data.find_all()[i+1].text != ('#' + bs_data.find_all()[i+1].name):
-                    codeBlock.append(bs_data.find_all()[i+1].text)
+    if len(bs_data.find_all()) > i:
+        while ((bs_data.find_all()[i].name != 'directive' and
+                bs_data.find_all()[i].name not in directives) or
+               (bs_data.find_all()[i].name == 'directive' and
+                (bs_data.find_all()[i].text != 'else' and
+                 bs_data.find_all()[i].text != 'elif' and 
+                 bs_data.find_all()[i].text != 'endif' and 
+                 bs_data.find_all()[i].text != 'if' and
+                 bs_data.find_all()[i].text != 'ifdef' and
+                 bs_data.find_all()[i].text != 'ifndef' and
+                 bs_data.find_all()[i].text != 'elif'))):
+            if (bs_data.find_all()[i].name == 'decl_stmt' or
+                bs_data.find_all()[i].name == 'expr_stmt' or
+                bs_data.find_all()[i].name == 'macro' or
+                bs_data.find_all()[i].name in directives):
+                if bs_data.find_all()[i].name not in directives:
+                    codeBlock.append(bs_data.find_all()[i].text)
+                elif bs_data.find_all()[i].name in directives and bs_data.find_all()[i].text != ('#' + bs_data.find_all()[i].name):
+                    codeBlock.append(bs_data.find_all()[i].text)
             i += 1
             if i + 1 >= len(bs_data.find_all()):
                 break
@@ -47,19 +53,21 @@ def findConditionals():
                 bs_data.find_all()[i].next == 'elif')):
             
             conditional = bs_data.find_all()[i+1].text
-            codeBlock = getIfCodeBlock(i)
+            codeBlock = getIfCodeBlock(i+1)
             if allConditionalsDic.get(conditional) is not None:
                 allConditionalsDic[conditional].append(codeBlock) 
             else:
-                allConditionalsDic[conditional] = codeBlock 
+                allConditionalsDic[conditional] = []
+                allConditionalsDic[conditional].append(codeBlock) 
         
         elif bs_data.find_all()[i].name == 'directive' and bs_data.find_all()[i].next == 'else':
             conditional = getElseConditional(i)
-            codeBlock = getIfCodeBlock(i)
+            codeBlock = getIfCodeBlock(i+1)
             if allConditionalsDic.get(conditional) is not None:
                 allConditionalsDic[conditional].append(codeBlock) 
             else:
-                allConditionalsDic[conditional] = codeBlock 
+                allConditionalsDic[conditional] = []
+                allConditionalsDic[conditional].append(codeBlock) 
 
 
 # Start the project code

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<unit xmlns="http://www.srcML.org/srcML/src" xmlns:cpp="http://www.srcML.org/srcML/cpp" revision="1.0.0" language="C" filename="C:\Users\fabio\OneDrive\�rea de Trabalho\tcc repo\uploadedFiles\test.c"><cpp:include>#<cpp:directive>include</cpp:directive> <cpp:file>&lt;stdio.h&gt;</cpp:file></cpp:include>
+
+<cpp:define>#<cpp:directive>define</cpp:directive> <cpp:macro><name>NUMERO</name></cpp:macro> <cpp:value>10</cpp:value></cpp:define>  
+<cpp:define>#<cpp:directive>define</cpp:directive> <cpp:macro><name>A</name></cpp:macro> <cpp:value>5</cpp:value></cpp:define>
+<cpp:define>#<cpp:directive>define</cpp:directive> <cpp:macro><name>B</name></cpp:macro> <cpp:value>10</cpp:value></cpp:define>
+<cpp:define>#<cpp:directive>define</cpp:directive> <cpp:macro><name>C</name></cpp:macro> <cpp:value>13</cpp:value></cpp:define>
+<function><type><name>int</name></type> <name>main</name><parameter_list>()</parameter_list> <block>{<block_content>
+    <cpp:ifdef>#<cpp:directive>ifdef</cpp:directive> <name>NUMERO</name></cpp:ifdef>
+        <expr_stmt><expr><call><name>printf</name><argument_list>(<argument><expr><literal type="string">"A macro NUMERO estÃ¡ definida e seu valor Ã©: %d\n"</literal></expr></argument>, <argument><expr><name>NUMERO</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+        <expr_stmt><expr><call><name>open</name><argument_list>()</argument_list></call></expr>;</expr_stmt>
+    <cpp:else>#<cpp:directive>else</cpp:directive></cpp:else>
+        <expr_stmt><expr><call><name>printf</name><argument_list>(<argument><expr><literal type="string">"A macro NUMERO nÃ£o estÃ¡ definida.\n"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+        <expr_stmt><expr><call><name>close</name><argument_list>()</argument_list></call></expr>;</expr_stmt>
+    <cpp:endif>#<cpp:directive>endif</cpp:directive></cpp:endif>
+
+    <cpp:ifndef>#<cpp:directive>ifndef</cpp:directive> <name>OUTRA_MACRO</name></cpp:ifndef>
+        <expr_stmt><expr><call><name>printf</name><argument_list>(<argument><expr><literal type="string">"A macro OUTRA_MACRO nÃ£o estÃ¡ definida.\n"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+    <cpp:endif>#<cpp:directive>endif</cpp:directive></cpp:endif>
+
+    <cpp:ifdef>#<cpp:directive>ifdef</cpp:directive> <name>NUMERO</name></cpp:ifdef>
+        <decl_stmt><decl><type><name>int</name></type> <name>x</name> <init>= <expr><literal type="number">20</literal></expr></init></decl>;</decl_stmt>
+        <expr_stmt><expr><call><name>close</name><argument_list>()</argument_list></call></expr>;</expr_stmt>
+    <cpp:endif>#<cpp:directive>endif</cpp:directive></cpp:endif>
+
+    <cpp:ifdef>#<cpp:directive>ifdef</cpp:directive> <name>A</name></cpp:ifdef>
+        <expr_stmt><expr><call><name>printf</name><argument_list>(<argument><expr><literal type="string">"A"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+        <cpp:ifdef>#<cpp:directive>ifdef</cpp:directive> <name>C</name></cpp:ifdef>
+            <expr_stmt><expr><call><name>printf</name><argument_list>(<argument><expr><literal type="string">"A, C"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+        <cpp:endif>#<cpp:directive>endif</cpp:directive></cpp:endif>
+    <cpp:elif>#<cpp:directive>elif</cpp:directive> <expr><name>B</name> <operator>||</operator> <name>NUMERO</name></expr></cpp:elif>
+        <expr_stmt><expr><call><name>printf</name><argument_list>(<argument><expr><literal type="string">"B"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+    <cpp:else>#<cpp:directive>else</cpp:directive></cpp:else>
+        <macro><name>printf</name><argument_list>(<argument><literal type="string">"Else"</literal></argument>)</argument_list></macro>
+    <cpp:endif>#<cpp:directive>endif</cpp:directive></cpp:endif>
+
+    <return>return <expr><literal type="number">0</literal></expr>;</return>
+</block_content>}</block></function></unit>
