@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 
 #define NUMERO 10  
@@ -8,8 +9,10 @@ int main() {
     #ifdef NUMERO
         printf("A macro NUMERO está definida e seu valor é: %d\n", NUMERO);
         open();
+    #elif B
+        printf("NUMERO nao esta definida e B sim")
     #else
-        printf("A macro NUMERO não está definida.\n");
+        printf("A macro NUMERO não está definida e B tambem nao.\n");
         close();
     #endif
 
@@ -20,6 +23,12 @@ int main() {
     #ifdef NUMERO
         int x = 20;
         close();
+        #ifdef B
+            print("NUMERO esta definida e B tambem");
+            #ifdef C
+                printf("NUMERO, B e C estao definidos");
+            #endif
+        #endif
     #endif
 
     #ifdef A
@@ -30,7 +39,7 @@ int main() {
     #elif B || NUMERO
         printf("B");
     #else
-        printf("Else")
+        printf("Else");
     #endif
 
     return 0;

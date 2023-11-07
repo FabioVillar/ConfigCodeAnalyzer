@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<unit xmlns="http://www.srcML.org/srcML/src" xmlns:cpp="http://www.srcML.org/srcML/cpp" revision="1.0.0" language="C" filename="C:\Users\fabio\OneDrive\�rea de Trabalho\tcc repo\uploadedFiles\test.c"><cpp:include>#<cpp:directive>include</cpp:directive> <cpp:file>&lt;stdio.h&gt;</cpp:file></cpp:include>
+<unit xmlns="http://www.srcML.org/srcML/src" xmlns:cpp="http://www.srcML.org/srcML/cpp" revision="1.0.0" language="C" filename="C:\Users\fabio\OneDrive\�rea de Trabalho\tcc repo\uploadedFiles\test3.c">
+<cpp:include>#<cpp:directive>include</cpp:directive> <cpp:file>&lt;stdio.h&gt;</cpp:file></cpp:include>
 
 <cpp:define>#<cpp:directive>define</cpp:directive> <cpp:macro><name>NUMERO</name></cpp:macro> <cpp:value>10</cpp:value></cpp:define>  
 <cpp:define>#<cpp:directive>define</cpp:directive> <cpp:macro><name>A</name></cpp:macro> <cpp:value>5</cpp:value></cpp:define>
@@ -9,8 +10,10 @@
     <cpp:ifdef>#<cpp:directive>ifdef</cpp:directive> <name>NUMERO</name></cpp:ifdef>
         <expr_stmt><expr><call><name>printf</name><argument_list>(<argument><expr><literal type="string">"A macro NUMERO estÃ¡ definida e seu valor Ã©: %d\n"</literal></expr></argument>, <argument><expr><name>NUMERO</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
         <expr_stmt><expr><call><name>open</name><argument_list>()</argument_list></call></expr>;</expr_stmt>
+    <cpp:elif>#<cpp:directive>elif</cpp:directive> <expr><name>B</name></expr></cpp:elif>
+        <macro><name>printf</name><argument_list>(<argument><literal type="string">"NUMERO nao esta definida e B sim"</literal></argument>)</argument_list></macro>
     <cpp:else>#<cpp:directive>else</cpp:directive></cpp:else>
-        <expr_stmt><expr><call><name>printf</name><argument_list>(<argument><expr><literal type="string">"A macro NUMERO nÃ£o estÃ¡ definida.\n"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+        <expr_stmt><expr><call><name>printf</name><argument_list>(<argument><expr><literal type="string">"A macro NUMERO nÃ£o estÃ¡ definida e B tambem nao.\n"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
         <expr_stmt><expr><call><name>close</name><argument_list>()</argument_list></call></expr>;</expr_stmt>
     <cpp:endif>#<cpp:directive>endif</cpp:directive></cpp:endif>
 
@@ -21,17 +24,25 @@
     <cpp:ifdef>#<cpp:directive>ifdef</cpp:directive> <name>NUMERO</name></cpp:ifdef>
         <decl_stmt><decl><type><name>int</name></type> <name>x</name> <init>= <expr><literal type="number">20</literal></expr></init></decl>;</decl_stmt>
         <expr_stmt><expr><call><name>close</name><argument_list>()</argument_list></call></expr>;</expr_stmt>
+        <cpp:ifdef>#<cpp:directive>ifdef</cpp:directive> <name>B</name></cpp:ifdef>
+            <expr_stmt><expr><call><name>print</name><argument_list>(<argument><expr><literal type="string">"NUMERO esta definida e B tambem"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+            <cpp:ifdef>#<cpp:directive>ifdef</cpp:directive> <name>C</name></cpp:ifdef>
+                <expr_stmt><expr><call><name>printf</name><argument_list>(<argument><expr><literal type="string">"NUMERO, B e C estao definidos"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+            <cpp:endif>#<cpp:directive>endif</cpp:directive></cpp:endif>
+        <cpp:endif>#<cpp:directive>endif</cpp:directive></cpp:endif>
     <cpp:endif>#<cpp:directive>endif</cpp:directive></cpp:endif>
 
     <cpp:ifdef>#<cpp:directive>ifdef</cpp:directive> <name>A</name></cpp:ifdef>
         <expr_stmt><expr><call><name>printf</name><argument_list>(<argument><expr><literal type="string">"A"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
         <cpp:ifdef>#<cpp:directive>ifdef</cpp:directive> <name>C</name></cpp:ifdef>
-            <expr_stmt><expr><call><name>printf</name><argument_list>(<argument><expr><literal type="string">"A, C"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+		    <cpp:ifdef>#<cpp:directive>ifdef</cpp:directive> <name>C</name> <name>&gt;</name> <name>B</name></cpp:ifdef>
+                <expr_stmt><expr><call><name>printf</name><argument_list>(<argument><expr><literal type="string">"A, C"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+            <cpp:endif>#<cpp:directive>endif</cpp:directive></cpp:endif>
         <cpp:endif>#<cpp:directive>endif</cpp:directive></cpp:endif>
     <cpp:elif>#<cpp:directive>elif</cpp:directive> <expr><name>B</name> <operator>||</operator> <name>NUMERO</name></expr></cpp:elif>
         <expr_stmt><expr><call><name>printf</name><argument_list>(<argument><expr><literal type="string">"B"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
     <cpp:else>#<cpp:directive>else</cpp:directive></cpp:else>
-        <macro><name>printf</name><argument_list>(<argument><literal type="string">"Else"</literal></argument>)</argument_list></macro>
+        <expr_stmt><expr><call><name>printf</name><argument_list>(<argument><expr><literal type="string">"Else"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
     <cpp:endif>#<cpp:directive>endif</cpp:directive></cpp:endif>
 
     <return>return <expr><literal type="number">0</literal></expr>;</return>
