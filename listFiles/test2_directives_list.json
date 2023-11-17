@@ -1,0 +1,1 @@
+{"List of Directives:": ["NUMERO", "!(NUMERO) and (B)", "!(!(NUMERO) and (B))", "! OUTRA_MACRO", "(NUMERO) and (B)", "((NUMERO) and (B)) and (C)", "A", "(A) and (C)", "!(A) and (B || NUMERO)", "!(!(A) and (B || NUMERO))"]}

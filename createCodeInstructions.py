@@ -140,7 +140,7 @@ def main(file_name):
     getConditionalsNamesAndCodeBlocks() # Will save in allConditionalsDic the directives conditionals names and codeBlocks
     removeEmptyValuesFromDict()
     folder_path = "jsonFiles/"
-    json_name = c_file_name[:-6] + '.json'
+    json_name = c_file_name[:-6] + '_instructions_code.json'
     with open(folder_path + json_name, 'w', newline='') as json_file:
         json.dump(allConditionalsDic, json_file)
     return json_name
@@ -175,4 +175,3 @@ conditionalDirectives = [
     'ifndef',
 ]
 c_file_name = ''
-# main('test3.c.xml')

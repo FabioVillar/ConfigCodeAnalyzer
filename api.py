@@ -2,7 +2,7 @@ import subprocess
 from fastapi import FastAPI, HTTPException, UploadFile
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
-import xml_reader2, os
+import createCodeInstructions, createListOfDirectives, os
 
 app = FastAPI()
 
@@ -11,7 +11,7 @@ class CodeInput(BaseModel):
     file_name: str
 
 @app.post("/uploadFile")
-async def upload_file(file: UploadFile):
+async def upload_a_file(file: UploadFile):
     if file:
         try:
             folder_path = r"C:\Users\fabio\OneDrive\Área de Trabalho\tcc repo\uploadedFiles"
@@ -30,9 +30,10 @@ async def upload_file(file: UploadFile):
             raise HTTPException(status_code=500, detail=str(e))
     else:
         raise HTTPException(status_code=400, detail="Arquivo não foi recebido.")
+    
 
-@app.get("/getFile")
-async def get_json(file_name: str):
+@app.get("/getListOfConditionalDirectives")
+async def get_list_of_conditional_directives(file_name: str):
     try:
         folder_path = r"C:\Users\fabio\OneDrive\Área de Trabalho\tcc repo\uploadedFiles"
         xml_file_path = os.path.join(folder_path, f"{file_name}.c.xml")
@@ -41,7 +42,35 @@ async def get_json(file_name: str):
         if not os.path.exists(xml_file_path):
             raise HTTPException(status_code=404, detail=f"Arquivo XML não encontrado: {xml_file_path}")
         
-        json_name = xml_reader2.main(xml_file_name)
+        json_name = createListOfDirectives.main(xml_file_name)
+        json_file_path = "listFiles/" + json_name
+
+        if not os.path.exists(json_file_path):
+            raise HTTPException(status_code=404, detail=f"Arquivo JSON não encontrado: {json_file_path}")
+        
+        with open(json_file_path, "r") as json_file:
+            json_content = json_file.read()
+        
+        json_response = FileResponse(json_file_path)
+        return json_response
+    
+    except FileNotFoundError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/getCodeInstructionsFromEachConditionalDirective")
+async def get_code_instructions_from_each_conditional_directive(file_name: str):
+    try:
+        folder_path = r"C:\Users\fabio\OneDrive\Área de Trabalho\tcc repo\uploadedFiles"
+        xml_file_path = os.path.join(folder_path, f"{file_name}.c.xml")
+        xml_file_name = file_name + ".c.xml"
+        
+        if not os.path.exists(xml_file_path):
+            raise HTTPException(status_code=404, detail=f"Arquivo XML não encontrado: {xml_file_path}")
+        
+        json_name = createCodeInstructions.main(xml_file_name)
         json_file_path = "jsonFiles/" + json_name
 
         if not os.path.exists(json_file_path):
@@ -57,6 +86,7 @@ async def get_json(file_name: str):
         raise HTTPException(status_code=404, detail=str(e))
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+    
 
 if  __name__ == "__main__":
     import uvicorn
