@@ -2,7 +2,7 @@ import subprocess
 from fastapi import FastAPI, HTTPException, UploadFile
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
-import xml_reader, os
+import xml_reader2, os
 
 app = FastAPI()
 
@@ -41,7 +41,7 @@ async def get_json(file_name: str):
         if not os.path.exists(xml_file_path):
             raise HTTPException(status_code=404, detail=f"Arquivo XML não encontrado: {xml_file_path}")
         
-        json_name = xml_reader.main(xml_file_name)
+        json_name = xml_reader2.main(xml_file_name)
         json_file_path = "jsonFiles/" + json_name
 
         if not os.path.exists(json_file_path):

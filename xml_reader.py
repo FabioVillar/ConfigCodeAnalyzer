@@ -173,4 +173,4 @@ bs_data = None
 directiveIndex = None
 directives = []
 c_file_name = ''
-# main('test3.c.xml')
+main('test3.c.xml')
