@@ -128,10 +128,42 @@ def removeEmptyValuesFromDict():
         if copy[key] == []:
             del allConditionalsDic[key]
 
+def initializeGlobalVariables():
+    global allDirectivesArray, bs_data, c_file_name, directives, allConditionalsDic
+    allDirectivesArray = []
+    allConditionalsDic = {}
+    bs_data = None
+    directiveIndex = None
+    directives = [
+            'include',
+            'define',
+            'if',
+            'elif',
+            'else',
+            'endif',
+            'error',
+            'ifdef',
+            'ifndef',
+            'line',
+            'pragma',
+            'undef',
+            'warning',
+        ]
+    conditionalDirectives = [
+        'if',
+        'elif',
+        'else',
+        'endif',
+        'ifdef',
+        'ifndef',
+    ]
+    c_file_name = ''
+
 
 # Start the project code
 def main(file_name):
     global allDirectivesArray, bs_data, c_file_name, directives, allConditionalsDic
+    initializeGlobalVariables()
     c_file_name = file_name
     with open('uploadedFiles/'+c_file_name, 'r') as f:
         data = f.read() 
@@ -151,27 +183,6 @@ allDirectivesArray = []
 allConditionalsDic = {}
 bs_data = None
 directiveIndex = None
-directives = [
-        'include',
-        'define',
-        'if',
-        'elif',
-        'else',
-        'endif',
-        'error',
-        'ifdef',
-        'ifndef',
-        'line',
-        'pragma',
-        'undef',
-        'warning',
-    ]
-conditionalDirectives = [
-    'if',
-    'elif',
-    'else',
-    'endif',
-    'ifdef',
-    'ifndef',
-]
+directives = []
+conditionalDirectives = []
 c_file_name = ''
