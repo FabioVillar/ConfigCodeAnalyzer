@@ -62,19 +62,30 @@ def updateAllConditionalsDic(conditional, codeBlock):
 
 def getNestedConditionals(i, currentConditional):
     global allConditionalsDic
+    name = None
     i += 1
     nextElement = bs_data.find_all()[allDirectivesArray[i]]
-    conditional = getThisConditionalName(i)
-    conditional = "(" + currentConditional + ") and (" + conditional + ")"
+    name = getThisConditionalName(i)
+    conditional = "(" + currentConditional + ") && (" + name + ")"
     codeBlock = getThisCodeBlock(i)
     updateAllConditionalsDic(conditional, codeBlock)
     nextElement = bs_data.find_all()[allDirectivesArray[i + 1]]
     if nextElement.next in ['if', 'ifdef', 'ifndef']:
         i = getNestedConditionals(i, conditional)
-    nextElement = bs_data.find_all()[allDirectivesArray[i + 1]]
+    nextElement = bs_data.find_all()[allDirectivesArray[i]]
     while nextElement.next != 'endif':
-        i = getNestedConditionals(i, currentConditional)
-        nextElement = bs_data.find_all()[allDirectivesArray[i + 1]]
+        if nextElement.next == 'elif':
+            currentConditional = currentConditional + ' && !(' + conditional + ')'
+            name = getThisConditionalName(i)
+            conditional = "(" + currentConditional + ") && (" + name + ")"
+            codeBlock = getThisCodeBlock(i)
+            updateAllConditionalsDic(conditional, codeBlock)
+        elif nextElement.next == 'else':
+            conditional = currentConditional + ' && !(' + conditional + ')'
+            codeBlock = getThisCodeBlock(i)
+            updateAllConditionalsDic(conditional, codeBlock)
+        i += 1
+        nextElement = bs_data.find_all()[allDirectivesArray[i]]
     return i + 1
 
 
@@ -98,7 +109,7 @@ def getConditionalsNamesAndCodeBlocks():
         elif element.next == 'elif':
             conditional = '!(' + currentConditional + ')'
             thisConditional = getThisConditionalName(i)
-            conditional += ' and (' + thisConditional + ')'
+            conditional += ' && (' + thisConditional + ')'
             currentConditional = conditional
             codeBlock = getThisCodeBlock(i)
             updateAllConditionalsDic(conditional, codeBlock)
