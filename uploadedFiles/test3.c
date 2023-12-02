@@ -28,6 +28,10 @@ int main() {
             #ifdef C
                 printf("NUMERO, B e C estao definidos");
             #endif
+        #elif C
+            print("B nao definido, C sim")
+        #else
+            print("B nao definido, C tambem nao")
         #endif
     #endif
 

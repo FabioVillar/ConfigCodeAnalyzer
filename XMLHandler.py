@@ -139,6 +139,13 @@ def removeEmptyValuesFromDict():
         if copy[key] == []:
             del allConditionalsDic[key]
 
+
+def createListOfDirectives():
+    global allDirectivesArray, listDict
+    listDict["List of Directives:"] = []
+    for key in allConditionalsDic:
+        listDict["List of Directives:"].append(key)
+
 def initializeGlobalVariables():
     global allDirectivesArray, bs_data, c_file_name, directives, allConditionalsDic
     allDirectivesArray = []
@@ -172,7 +179,25 @@ def initializeGlobalVariables():
 
 
 # Start the project code
-def main(file_name):
+def createList(file_name):
+    global allDirectivesArray, bs_data, c_file_name, directives, allConditionalsDic, listDict
+    initializeGlobalVariables()
+    c_file_name = file_name
+    with open('uploadedFiles/'+c_file_name, 'r') as f:
+        data = f.read() 
+    bs_data = BeautifulSoup(data, 'xml') 
+    getAllDirectivesFromData() # Will save in allDirectivesArray the indexes of directives
+    getConditionalsNamesAndCodeBlocks() # Will save in allConditionalsDic the directives conditionals names and codeBlocks
+    removeEmptyValuesFromDict()
+    createListOfDirectives()
+    folder_path = "listFiles/"
+    json_name = c_file_name[:-6] + '_directives_list.json'
+    with open(folder_path + json_name, 'w', newline='') as json_file:
+        json.dump(listDict, json_file)
+    return json_name
+
+# Start the project code
+def getCodeInstructions(file_name):
     global allDirectivesArray, bs_data, c_file_name, directives, allConditionalsDic
     initializeGlobalVariables()
     c_file_name = file_name
@@ -192,6 +217,7 @@ def main(file_name):
 # Initialize important variables and call main()
 allDirectivesArray = []
 allConditionalsDic = {}
+listDict = {}
 bs_data = None
 directiveIndex = None
 directives = []

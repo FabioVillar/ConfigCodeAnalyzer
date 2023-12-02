@@ -29,6 +29,10 @@
             <cpp:ifdef>#<cpp:directive>ifdef</cpp:directive> <name>C</name></cpp:ifdef>
                 <expr_stmt><expr><call><name>printf</name><argument_list>(<argument><expr><literal type="string">"NUMERO, B e C estao definidos"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
             <cpp:endif>#<cpp:directive>endif</cpp:directive></cpp:endif>
+        <cpp:elif>#<cpp:directive>elif</cpp:directive> <expr><name>C</name></expr></cpp:elif>
+            <macro><name>print</name><argument_list>(<argument><literal type="string">"B nao definido, C sim"</literal></argument>)</argument_list></macro>
+        <cpp:else>#<cpp:directive>else</cpp:directive></cpp:else>
+            <macro><name>print</name><argument_list>(<argument><literal type="string">"B nao definido, C tambem nao"</literal></argument>)</argument_list></macro>
         <cpp:endif>#<cpp:directive>endif</cpp:directive></cpp:endif>
     <cpp:endif>#<cpp:directive>endif</cpp:directive></cpp:endif>
 

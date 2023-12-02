@@ -2,7 +2,7 @@ import subprocess
 from fastapi import FastAPI, HTTPException, UploadFile
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
-import createCodeInstructions, createListOfDirectives, os
+import XMLHandler, os
 
 app = FastAPI()
 
@@ -42,7 +42,7 @@ async def get_list_of_conditional_directives(file_name: str):
         if not os.path.exists(xml_file_path):
             raise HTTPException(status_code=404, detail=f"Arquivo XML não encontrado: {xml_file_path}")
         
-        json_name = createListOfDirectives.main(xml_file_name)
+        json_name = XMLHandler.createList(xml_file_name)
         json_file_path = "listFiles/" + json_name
 
         if not os.path.exists(json_file_path):
@@ -70,7 +70,7 @@ async def get_code_instructions_from_each_conditional_directive(file_name: str):
         if not os.path.exists(xml_file_path):
             raise HTTPException(status_code=404, detail=f"Arquivo XML não encontrado: {xml_file_path}")
         
-        json_name = createCodeInstructions.main(xml_file_name)
+        json_name = XMLHandler.getCodeInstructions(xml_file_name)
         json_file_path = "jsonFiles/" + json_name
 
         if not os.path.exists(json_file_path):
