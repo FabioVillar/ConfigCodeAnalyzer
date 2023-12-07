@@ -14,7 +14,7 @@ class CodeInput(BaseModel):
 async def upload_a_file(file: UploadFile):
     if file:
         try:
-            folder_path = r"C:\Users\fabio\OneDrive\Área de Trabalho\tcc repo\uploadedFiles"
+            folder_path = r"uploadedFiles"
             file_path = os.path.join(folder_path, file.filename)
             with open(file_path, "wb") as f:
                 f.write(file.file.read())
@@ -35,7 +35,7 @@ async def upload_a_file(file: UploadFile):
 @app.get("/getListOfConditionalDirectives")
 async def get_list_of_conditional_directives(file_name: str):
     try:
-        folder_path = r"C:\Users\fabio\OneDrive\Área de Trabalho\tcc repo\uploadedFiles"
+        folder_path = r"uploadedFiles"
         xml_file_path = os.path.join(folder_path, f"{file_name}.c.xml")
         xml_file_name = file_name + ".c.xml"
         
@@ -63,7 +63,7 @@ async def get_list_of_conditional_directives(file_name: str):
 @app.get("/getCodeInstructionsFromEachConditionalDirective")
 async def get_code_instructions_from_each_conditional_directive(file_name: str):
     try:
-        folder_path = r"C:\Users\fabio\OneDrive\Área de Trabalho\tcc repo\uploadedFiles"
+        folder_path = r"uploadedFiles"
         xml_file_path = os.path.join(folder_path, f"{file_name}.c.xml")
         xml_file_name = file_name + ".c.xml"
         
